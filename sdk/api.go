@@ -126,6 +126,22 @@ func (s *SpotifyClient) GetFeaturedPlaylists(token string) (*http.Response, erro
 	return response, nil
 }
 
+func (s *SpotifyClient) GetUserPlaylists(token, userId string) (*http.Response, error) {
+	request, err := http.NewRequest("GET", s.ApiUrl+"/v1/users/"+userId+"/playlists", nil)
+	if err != nil {
+		return nil, err
+	}
+
+	request.Header.Add("Authorization", token)
+	request.Header.Add("Content-Type", "application/json")
+	response, err := http.DefaultClient.Do(request)
+	if err != nil {
+		return nil, err
+	}
+
+	return response, nil
+}
+
 func (s *SpotifyClient) CreatePlaylist(token, userId string, data []byte) (*http.Response, error) {
 	jsonData := map[string]interface{}{}
 	json.Unmarshal(data, &jsonData)
@@ -258,6 +274,22 @@ func (s *SpotifyClient) GetAlbums(token, ids string) (*http.Response, error) {
 
 func (s *SpotifyClient) GetTrack(token, id string) (*http.Response, error) {
 	request, err := http.NewRequest("GET", s.ApiUrl+"/v1/tracks/"+id, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	request.Header.Add("Authorization", token)
+	request.Header.Add("Content-Type", "application/json")
+	response, err := http.DefaultClient.Do(request)
+	if err != nil {
+		return nil, err
+	}
+
+	return response, nil
+}
+
+func (s *SpotifyClient) GetAlbum(token, id string) (*http.Response, error) {
+	request, err := http.NewRequest("GET", s.ApiUrl+"/v1/albums/"+id, nil)
 	if err != nil {
 		return nil, err
 	}
