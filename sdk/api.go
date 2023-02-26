@@ -335,3 +335,19 @@ func (s *SpotifyClient) GetAlbumTracks(token, id string) (*http.Response, error)
 
 	return response, nil
 }
+
+func (s *SpotifyClient) GetPlaylistTracks(token, id string) (*http.Response, error) {
+	request, err := http.NewRequest("GET", s.ApiUrl+"/v1/playlists/"+id+"/tracks", nil)
+	if err != nil {
+		return nil, err
+	}
+
+	request.Header.Add("Authorization", token)
+	request.Header.Add("Content-Type", "application/json")
+	response, err := http.DefaultClient.Do(request)
+	if err != nil {
+		return nil, err
+	}
+
+	return response, nil
+}
